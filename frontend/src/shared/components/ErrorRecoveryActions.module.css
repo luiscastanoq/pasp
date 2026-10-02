@@ -1,0 +1,92 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: inherit;
+  gap: 12px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.primaryButton,
+.secondaryButton,
+.resetButton,
+.resetButtonEmphasized {
+  min-height: 40px;
+  border-radius: 6px;
+  padding: 0 18px;
+  font: 600 0.875rem/1 var(--font-primary);
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.primaryButton {
+  border: 1px solid #004872;
+  background: #004872;
+  color: #ffffff;
+}
+
+.primaryButton:hover {
+  border-color: #003957;
+  background: #003957;
+}
+
+.secondaryButton,
+.resetButton {
+  border: 1px solid #9aa1aa;
+  background: #ffffff;
+  color: #42474f;
+}
+
+.secondaryButton:hover,
+.resetButton:hover {
+  border-color: #004872;
+  color: #004872;
+}
+
+.resetButtonEmphasized {
+  border: 1px solid #9f2d2d;
+  background: #9f2d2d;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(159, 45, 45, 0.2);
+}
+
+.resetButtonEmphasized:hover {
+  border-color: #812222;
+  background: #812222;
+}
+
+.primaryButton:focus-visible,
+.secondaryButton:focus-visible,
+.resetButton:focus-visible,
+.resetButtonEmphasized:focus-visible {
+  outline: 3px solid rgba(0, 72, 114, 0.2);
+  outline-offset: 2px;
+}
+
+.recoveryHint {
+  margin: 0;
+  color: #7a2525;
+  font: 500 0.875rem/1.4 var(--font-primary);
+}
+
+@media (max-width: 520px) {
+  .actions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .primaryButton,
+  .secondaryButton,
+  .resetButton,
+  .resetButtonEmphasized {
+    width: 100%;
+  }
+}

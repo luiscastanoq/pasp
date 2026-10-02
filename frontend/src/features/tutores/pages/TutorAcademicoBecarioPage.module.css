@@ -1,0 +1,379 @@
+.container {
+  min-height: 100vh;
+  background: var(--pasp-color-page);
+  color: var(--pasp-color-text);
+}
+
+.main {
+  width: 100%;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 32px 28px 56px;
+}
+
+.identityCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: 100%;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 29px 24px;
+  margin-bottom: 28px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.identityLeft {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 24px;
+}
+
+.profileAvatar {
+  display: grid;
+  place-items: center;
+  width: 61px;
+  height: 61px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #004872;
+  color: #9ecaff;
+  font: 700 1.275rem/1 var(--font-primary);
+}
+
+.identityText {
+  min-width: 0;
+}
+
+.identityText h1 {
+  margin: 0 0 0.5rem;
+  color: var(--pasp-color-text);
+  font: 700 1.75rem/1.25 var(--font-primary);
+}
+
+.identityMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  color: var(--pasp-color-text-muted);
+  font: 400 0.95rem/1.35 var(--font-primary);
+}
+
+.identityMeta span,
+.evaluacionesAction,
+.tabsHeader button,
+.infoItem span,
+.tutorHeaderBar {
+  display: inline-flex;
+  align-items: center;
+}
+
+.identityMeta svg,
+.evaluacionesAction svg,
+.tabsHeader svg,
+.infoItem svg,
+.tutorHeaderBar svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+
+.identityActions {
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 179px);
+}
+
+.evaluacionesAction {
+  min-height: 34px;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 4px;
+  padding: 0 1rem;
+  cursor: pointer;
+  font: 600 0.875rem/1 var(--font-primary);
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+
+.evaluacionesAction {
+  border: 1px solid #002848;
+  background: #002848;
+  color: #ffffff;
+}
+
+.evaluacionesAction:hover {
+  border-color: #004872;
+  background: #004872;
+  box-shadow: 0 4px 14px rgba(0, 72, 114, 0.24);
+}
+
+.evaluacionesAction:active {
+  transform: translateY(1px);
+}
+
+.tabsPanel,
+.tutorCard {
+  overflow: hidden;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.tabsPanel {
+  margin-bottom: 28px;
+}
+
+.tabsHeader {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  min-height: 54px;
+  padding: 0.5rem 1rem 0;
+  background: #004872;
+}
+
+.tab,
+.tabActive {
+  min-height: 36px;
+  gap: 0.5rem;
+  border: 0;
+  border-radius: 6px 6px 0 0;
+  padding: 0 0.875rem;
+  cursor: pointer;
+  font: 600 0.875rem/1 var(--font-primary);
+}
+
+.tab {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.tabActive {
+  background: #ffffff;
+  color: #004872;
+}
+
+.tabContent {
+  padding: 28px;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px 36px;
+}
+
+.infoItem {
+  min-width: 0;
+}
+
+.infoItem span {
+  gap: 6px;
+  margin-bottom: 5px;
+  color: var(--pasp-color-label);
+  font: 600 0.75rem/1.25 var(--font-primary);
+}
+
+.infoItem span svg {
+  width: 16px;
+  height: 16px;
+}
+
+.infoItem strong {
+  display: block;
+  overflow-wrap: anywhere;
+  color: var(--pasp-color-text);
+  font: 400 0.9375rem/1.35 var(--font-primary);
+}
+
+.infoItem a,
+.tutorDetails a {
+  color: #004872;
+  text-decoration: none;
+}
+
+.infoItem a:hover,
+.tutorDetails a:hover {
+  text-decoration: underline;
+}
+
+.tutorsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 28px;
+}
+
+.tutorHeaderBar {
+  gap: 10px;
+  width: 100%;
+  background: #004872;
+  color: #ffffff;
+  padding: 1rem;
+}
+
+.tutorHeaderBar h2 {
+  margin: 0;
+  font: 700 1rem/1.25 var(--font-primary);
+}
+
+.tutorBody {
+  padding: 28px;
+}
+
+.tutorIdentity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.tutorAvatar {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #e4e8f4;
+  color: var(--pasp-color-text);
+  font: 700 0.8125rem/1 var(--font-primary);
+}
+
+.tutorIdentity h3 {
+  margin: 0;
+  color: var(--pasp-color-text);
+  font: 600 0.9375rem/1.3 var(--font-primary);
+}
+
+.tutorDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 18px 0 0;
+}
+
+.tutorDetails div + div:last-child {
+  padding-top: 12px;
+  border-top: 1px dashed #e9ecef;
+}
+
+.tutorDetails dt {
+  color: var(--pasp-color-label);
+  font: 500 0.8125rem/1.35 var(--font-primary);
+}
+
+.tutorDetails dd {
+  margin: 3px 0 0;
+  color: var(--pasp-color-text);
+  font: 400 0.9375rem/1.35 var(--font-primary);
+}
+
+.loading,
+.error {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  color: var(--pasp-color-text-muted);
+  font: 500 0.95rem/1.35 var(--font-primary);
+}
+
+.errorCard {
+  width: min(100%, 420px);
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.errorCard h1 {
+  margin: 0 0 0.5rem;
+  color: var(--pasp-color-text);
+  font: 700 1.25rem/1.25 var(--font-primary);
+}
+
+.errorCard p {
+  margin: 0 0 1rem;
+}
+
+.backButton {
+  min-height: 36px;
+  border: 1px solid #004872;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #004872;
+  padding: 0 1rem;
+  cursor: pointer;
+  font: 600 0.875rem/1 var(--font-primary);
+}
+
+@media (max-width: 720px) {
+  .main {
+    padding: 24px 16px 40px;
+  }
+
+  .identityCard {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .identityLeft {
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .identityText h1 {
+    font-size: 1.45rem;
+  }
+
+  .identityActions {
+    width: 100%;
+  }
+
+  .tabsHeader {
+    align-items: stretch;
+    gap: 6px;
+    overflow-x: auto;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .tab,
+  .tabActive {
+    flex: 0 0 auto;
+    padding: 0 16px;
+  }
+
+  .tabContent,
+  .tutorBody {
+    padding: 20px;
+  }
+
+  .infoGrid,
+  .tutorsGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 1180px) and (min-width: 721px) {
+  .infoGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

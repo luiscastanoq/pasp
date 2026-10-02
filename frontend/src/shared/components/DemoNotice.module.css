@@ -1,0 +1,36 @@
+.dialog {
+  margin: auto;
+  max-width: 460px;
+  width: calc(100% - 40px);
+  padding: 28px;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  color: #111827;
+  background: white;
+  box-shadow: 0 12px 36px #0002;
+}
+.dialog::backdrop {
+  background: #11182766;
+}
+.dialog h2 {
+  font-size: 20px;
+  margin: 0 0 16px;
+  color: #111827;
+}
+.dialog p {
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+.dialog button {
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 8px;
+  background: #004872;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+.dialog button:focus-visible {
+  outline: 3px solid #186aab;
+  outline-offset: 3px;
+}

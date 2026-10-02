@@ -1,0 +1,142 @@
+/* ========================================
+   TutoresCard - Lista de tutores asignados
+   ======================================== */
+
+.card {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  margin-bottom: var(--spacing-6);
+}
+
+.cardHeader {
+  background-color: #145587;
+  color: white;
+  padding: var(--spacing-4);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: white;
+}
+
+.cardContent {
+  padding: var(--spacing-6);
+}
+
+.tutorList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing-5);
+}
+
+.tutorCard {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-5);
+  transition: all 0.2s ease;
+}
+
+.tutorCard:hover {
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
+}
+
+.tutorHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-4);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid var(--border-light);
+  gap: var(--spacing-3);
+}
+
+.tutorName {
+  font-size: var(--font-size-base);
+  color: var(--text-heading);
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
+  flex: 1;
+}
+
+.badgeSmall {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 10px;
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.badgeSuccess {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+}
+
+.badgeError {
+  background-color: var(--error-bg);
+  color: var(--error-text);
+}
+
+.tutorInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.tutorInfo p {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
+}
+
+.tutorInfo strong {
+  color: var(--text-heading);
+  font-weight: var(--font-weight-semibold);
+}
+
+.link {
+  color: #145587;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-weight: var(--font-weight-medium);
+}
+
+.link:hover {
+  color: #0f4566;
+  text-decoration: underline;
+}
+
+.noData {
+  text-align: center;
+  color: var(--text-tertiary);
+  font-style: italic;
+  padding: var(--spacing-8) var(--spacing-6);
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  margin: 0;
+  font-size: var(--font-size-base);
+}
+
+@media (max-width: 1024px) {
+  .tutorList {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .cardContent {
+    padding: var(--spacing-4);
+  }
+}

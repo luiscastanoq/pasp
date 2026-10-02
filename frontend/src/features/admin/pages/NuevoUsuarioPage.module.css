@@ -1,0 +1,148 @@
+.container {
+  min-height: 100vh;
+  background-color: var(--pasp-color-page);
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 32px 28px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.createGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(320px, 0.96fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.createGridSingle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.createMainColumn,
+.createSideColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  min-width: 0;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: var(--pasp-color-text);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.sectionSubtitle {
+  max-width: 620px;
+  margin: 0;
+  color: var(--pasp-color-text-muted);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.roleSelectorPanel {
+  width: 100%;
+}
+
+.cardFooter {
+  padding: 0.25rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.cancelButton {
+  min-height: 40px;
+  padding: 0 1.125rem;
+  background-color: var(--pasp-color-surface);
+  color: var(--pasp-color-label);
+  border: 1.5px solid var(--pasp-color-border);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, opacity 0.15s;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: var(--pasp-color-surface-muted);
+  border-color: var(--pasp-color-placeholder);
+}
+
+.saveButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 40px;
+  padding: 0 1.125rem;
+  background-color: #002848;
+  color: #ffffff;
+  border: 1px solid #002848;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.15s, opacity 0.15s;
+}
+
+.saveButton:hover:not(:disabled) {
+  background-color: #003e6b;
+  border-color: #003e6b;
+}
+
+.cancelButton:disabled,
+.saveButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.spinnerSmall {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 20px 16px 36px;
+  }
+
+  .createGrid {
+    grid-template-columns: 1fr;
+  }
+}

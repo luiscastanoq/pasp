@@ -1,0 +1,114 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy Node.js app to Azure Web App - pasp-api-student-4n7k
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+      - '.github/workflows/main_pasp-api-student-4n7k.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: azure-production
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read #This is required for actions/checkout
+    env:
+      # GitHub Actions runs in a clean machine without the local backend/.env file.
+      # Unit tests mock database access, so this URL is only a syntactically valid
+      # placeholder and does not contain Azure credentials or open a real database.
+      NODE_ENV: test
+      DATABASE_URL: 'sqlserver://localhost:1433;database=pasp_ci;user=ci_user;password=CiOnlyPassword123!;encrypt=true;trustServerCertificate=true'
+      JWT_SECRET: 'ci-only-jwt-secret-not-used-outside-automated-tests'
+      JWT_EXPIRES_IN: '24h'
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24.x'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Check code quality
+        working-directory: backend
+        run: npm run lint -- --no-warn-ignored
+
+      - name: Run tests
+        working-directory: backend
+        run: npm test
+
+      - name: Build application
+        working-directory: backend
+        run: npm run build
+
+      - name: Remove development-only dependencies
+        working-directory: backend
+        run: npm prune --omit=dev --ignore-scripts
+
+      - name: Verify generated Prisma client
+        run: test -f backend/node_modules/.prisma/client/default.js
+
+      - name: Prepare deployment package
+        run: |
+          mkdir deployment
+          cp -R backend/dist deployment/dist
+          cp -R backend/node_modules deployment/node_modules
+          cp -R backend/prisma deployment/prisma
+          cp backend/package.json deployment/package.json
+          cp backend/package-lock.json deployment/package-lock.json
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: node-app
+          path: deployment
+          if-no-files-found: error
+          include-hidden-files: true
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: build
+    environment: production
+    permissions:
+      id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: node-app
+      
+      - name: Login to Azure
+        uses: azure/login@8216e11d8cd9b42fe925c852af8e76311ff067ac # v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: 'Deploy to Azure Web App'
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@b686016b4de8820a23519503685d8d03fbfa03a6 # v3
+        with:
+          app-name: 'pasp-api-student-4n7k'
+          slot-name: 'Production'
+          package: .

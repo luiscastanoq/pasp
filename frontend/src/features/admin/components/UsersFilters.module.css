@@ -1,0 +1,226 @@
+/* ============================================
+   BARRA DE FILTROS UNIFICADA
+   ============================================ */
+
+/* Contenedor raíz: columna (texto limpiar arriba + barra abajo) */
+.filtersOuter {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 90%;
+  margin-left: auto;
+}
+
+/* Texto clicable "✕ Limpiar" — encima del searchbar, alineado a la izquierda */
+.clearTextBtn {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  padding: 0 0 6px 0;
+  font-size: 0.9375rem;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.clearTextBtn:hover {
+  color: #6b7280;
+  text-decoration: underline;
+}
+
+/* Wrapper interno: fila con la barra de filtros */
+.filtersWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+/* Barra unificada con borde continuo */
+.filterBar {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  min-height: 2.75rem;
+}
+
+.filterBar:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Botón de búsqueda - fondo blanco, igual que el resto de la barra */
+.searchBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.75rem;
+  background-color: #ffffff;
+  border: none;
+  border-right: 1px solid #e5e7eb;
+  border-radius: 7px 0 0 7px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  padding: 0;
+}
+
+.searchBtn:hover {
+  background-color: #f3f4f6;
+}
+
+.searchBtn:active {
+  background-color: #e5e7eb;
+}
+
+.searchBtnIcon {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: #6b7280;
+}
+
+/* Input de búsqueda */
+.searchInput {
+  flex: 1;
+  min-width: 336px;
+  padding: 0.75rem 0.5rem;
+  border: none;
+  outline: none;
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: #111827;
+  background: transparent;
+}
+
+.searchInput::placeholder {
+  color: #374151;
+}
+
+/* Botón ✕ del input */
+.clearInputBtn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+}
+
+.clearInputBtn:hover {
+  color: #374151;
+}
+
+/* Separador vertical full-height */
+.separator {
+  width: 1px;
+  background-color: #e5e7eb;
+  flex-shrink: 0;
+  /* Sin height ni margin — ocupa toda la altura del flex container */
+}
+
+/* Dropdowns de filtro */
+.filterSelect {
+  flex-shrink: 0;
+  padding: 0 0.5rem;
+  border: none;
+  outline: none;
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: #6b7280;
+  background: transparent;
+  cursor: pointer;
+  appearance: auto;
+  min-width: 0;
+  width: auto;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.filterSelect:hover {
+  background-color: #f9fafb;
+  color: #374151;
+}
+
+/* Dropdown con filtro activo */
+.filterSelect.filterActive {
+  color: #145587;
+  font-weight: 500;
+}
+
+/* ============================================
+   BOTÓN "LIMPIAR FILTROS" — fuera de la barra
+   ============================================ */
+.clearFiltersBtn {
+  flex-shrink: 0;
+  padding: 0.625rem 1rem;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #dc2626;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.clearFiltersBtn:hover {
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+}
+
+.clearFiltersBtn:active {
+  background-color: #fecaca;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 900px) {
+  .filterSelect {
+    min-width: 100px;
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .filtersWrapper {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filterBar {
+    flex-wrap: wrap;
+  }
+
+  .searchInput {
+    min-width: 180px;
+  }
+
+  .separator {
+    display: none;
+  }
+
+  .filterSelect {
+    border-top: 1px solid #e5e7eb;
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+  }
+
+  .clearFiltersBtn {
+    width: 100%;
+    text-align: center;
+  }
+}

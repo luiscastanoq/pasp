@@ -1,0 +1,161 @@
+/* ========================================
+   EvaluacionesTable - Tabla sin cabecera
+   ======================================== */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.row {
+  border-bottom: 1px solid var(--border-light);
+  transition: background-color 0.12s ease;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.rowClickable {
+  cursor: pointer;
+}
+
+.rowClickable:hover {
+  background-color: #f0f7ff;
+}
+
+.rowClickable:active {
+  background-color: #e0efff;
+}
+
+/* ── Celdas ── */
+
+.table td {
+  padding: var(--spacing-3) var(--spacing-4);
+  vertical-align: middle;
+  color: var(--text-primary);
+}
+
+.cellFecha {
+  white-space: nowrap;
+  color: var(--pasp-color-text-muted) !important;
+  font-size: 0.8125rem !important;
+  font-weight: 400 !important;
+  width: 110px;
+  min-width: 110px;
+}
+
+.cellTitulo {
+  font-weight: 600 !important;
+  color: var(--pasp-color-text) !important;
+  min-width: 160px;
+}
+
+.cellDescripcion {
+  color: var(--pasp-color-text-muted) !important;
+  line-height: 1.5;
+}
+
+/* ── Wrapper ── */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Paginación ── */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--border-light);
+  margin-top: var(--spacing-2);
+}
+
+/* Flechas ‹ › */
+.pageArrow {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: none;
+  color: var(--pasp-color-label);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  font-family: inherit;
+  padding: 0;
+}
+
+.pageArrow:hover:not(:disabled) {
+  color: #145587;
+}
+
+.pageArrow:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* Números de página */
+.pageNumber {
+  min-width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--pasp-color-label);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  font-family: inherit;
+  padding: 0 4px;
+}
+
+.pageNumber:hover:not(.pageNumberActive) {
+  color: #145587;
+}
+
+.pageNumberActive {
+  color: #145587;
+  font-weight: 600;
+  border-bottom: 2px solid #145587;
+  cursor: default;
+}
+
+/* ── Estado vacío ── */
+
+.emptyState {
+  padding: var(--spacing-10) var(--spacing-6);
+  text-align: center;
+}
+
+.emptyText {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-style: italic;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 640px) {
+  .cellDescripcion {
+    display: none;
+  }
+
+  .table td {
+    padding: var(--spacing-3) var(--spacing-3);
+  }
+}

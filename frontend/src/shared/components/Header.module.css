@@ -1,0 +1,276 @@
+/* ========================================
+   Header - Componente compartido de cabecera
+   ======================================== */
+
+.banner {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 1rem 2rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.bannerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.homeButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: #6b7280;
+  padding: 0;
+}
+
+.homeButton:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.homeButton:active {
+  background: #e5e7eb;
+}
+
+.homeIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #005691;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.userName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userRole {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #6b7280;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.menuContainer {
+  position: relative;
+}
+
+.menuButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  color: #186aab;
+}
+
+.menuButton:hover {
+  background: #e3eef8;
+  color: #145587;
+}
+
+.menuButton:active {
+  background: #e5e7eb;
+}
+
+.menuButtonActive {
+  background: #e3eef8;
+  color: #145587;
+}
+
+.chevron {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 180px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  padding: 0.5rem;
+  z-index: 50;
+  animation: dropdownFadeIn 0.2s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdownItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.875rem;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  text-align: left;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.dropdownItem:hover {
+  background: #f3f4f6;
+  color: #1f2937;
+}
+
+.dropdownItem:active {
+  background: #e5e7eb;
+}
+
+.dropdownIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: #145587;
+}
+
+.dropdownItem:hover .dropdownIcon {
+  color: #0f4566;
+}
+
+@media (max-width: 768px) {
+  .banner {
+    padding: 0.875rem 1rem;
+  }
+  .logo {
+    height: 32px;
+  }
+  .userSection {
+    gap: 0.75rem;
+  }
+  .avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 0.8125rem;
+  }
+  .userName {
+    font-size: 0.9375rem;
+  }
+  .userRole {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .banner {
+    padding: 0.75rem 0.875rem;
+  }
+  .logo {
+    height: 28px;
+  }
+  .userSection {
+    gap: 0.625rem;
+  }
+  .userInfo {
+    display: none;
+  }
+  .homeButton {
+    width: 32px;
+    height: 32px;
+  }
+  .homeIcon {
+    width: 20px;
+    height: 20px;
+  }
+  .avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.75rem;
+  }
+  .menuButton {
+    width: 28px;
+    height: 28px;
+  }
+  .chevron {
+    width: 18px;
+    height: 18px;
+  }
+  .dropdown {
+    min-width: 160px;
+  }
+}

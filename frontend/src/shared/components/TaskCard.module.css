@@ -1,0 +1,194 @@
+.taskCard {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+}
+
+.taskCard:hover:not(.taskCardDisabled) {
+  border-color: #d1d5db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.taskCardDisabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.taskHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  gap: 0.75rem;
+}
+
+.taskTitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--pasp-color-text);
+  line-height: 1.4;
+  flex: 1;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 650;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badgePendiente {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.badgeEnProgreso {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.badgeCompletada {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.taskDescription {
+  margin: 0 0 1rem 0;
+  font-size: 0.875rem;
+  color: var(--pasp-color-text-muted);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.taskDates {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.875rem;
+  padding: 0.75rem;
+  background-color: #f9fafb;
+  border-radius: 6px;
+}
+
+.dateItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+}
+
+.dateLabel {
+  color: var(--pasp-color-text-muted);
+  font-weight: 500;
+}
+
+.dateValue {
+  color: var(--pasp-color-text);
+  font-weight: 500;
+}
+
+.taskTutor {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.8125rem;
+}
+
+.tutorLabel {
+  color: var(--pasp-color-text-muted);
+}
+
+.tutorName {
+  color: var(--pasp-color-text);
+  font-weight: 500;
+}
+
+.taskActions {
+  display: flex;
+  gap: 0.625rem;
+  align-items: center;
+}
+
+.estadoSelect {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.estadoSelect:hover:not(:disabled) {
+  border-color: #9ca3af;
+}
+
+.estadoSelect:focus {
+  outline: none;
+  border-color: #186aab;
+  box-shadow: 0 0 0 3px rgba(24, 106, 171, 0.1);
+}
+
+.estadoSelect:disabled {
+  background-color: #f9fafb;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.updating {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  color: var(--pasp-color-text-muted);
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .taskCard {
+    padding: 1rem;
+  }
+
+  .taskHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .badge {
+    align-self: flex-start;
+  }
+
+  .taskActions {
+    width: 100%;
+  }
+
+  .estadoSelect {
+    width: 100%;
+  }
+}

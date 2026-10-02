@@ -1,0 +1,7 @@
+# .clineignore - Archivos y directorios que Cline debe ignorar
+
+# Similar a .gitignore, pero específico para operaciones de Cline
+
+PRD_PASP.md
+APRENDIZAJE.md
+docs/historial_progreso

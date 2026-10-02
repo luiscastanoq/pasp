@@ -1,0 +1,185 @@
+/* ========================================
+   FichajeCard - Card de control de fichajes
+   ======================================== */
+
+.fichajeCard {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  margin-bottom: var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Cabecera azul */
+.cardHeader {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  background: #004872;
+  padding: 0 1rem;
+}
+
+.cardHeaderTitle {
+  margin: 0;
+  font: 600 1rem/1.2 var(--font-primary);
+  color: #ffffff;
+  letter-spacing: 0;
+}
+
+/* Contenido interior (botón + historial) con padding */
+.fichajeButtonWrapper {
+  padding: var(--spacing-6) var(--spacing-6) 0;
+}
+
+.fichajeButtonMain {
+  width: 100%;
+  min-height: 34px;
+  padding: 0 1rem;
+  background: #002848;
+  color: white;
+  border: 1px solid #002848;
+  border-radius: 4px;
+  font: 600 0.875rem/1 var(--font-primary);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-md);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.fichajeButtonMain:hover:not(:disabled) {
+  background: #003e6b;
+  border-color: #003e6b;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.fichajeButtonMain:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.fichajeButtonMain:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: linear-gradient(135deg, #9ca3af, #6b7280);
+}
+
+.fichajeHistorial {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  padding: var(--spacing-6);
+}
+
+.fichajeHistorialTitle {
+  margin: 0;
+  color: var(--pasp-color-text);
+  font: 600 1rem/1.25 var(--font-primary);
+  padding-bottom: var(--spacing-2);
+  border-bottom: 2px solid var(--border-light);
+}
+
+.fichajeHistorialHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+}
+
+.verHistorialButton {
+  min-height: 32px;
+  padding: 0 0.875rem;
+  background-color: transparent;
+  color: #145587;
+  border: 1px solid #145587;
+  border-radius: 4px;
+  font: 600 0.875rem/1 var(--font-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.verHistorialButton:hover {
+  background-color: #145587;
+  color: white;
+}
+
+.verHistorialButton:active {
+  transform: scale(0.97);
+}
+
+/* Mini-tabla de últimos fichajes */
+
+.miniTableWrapper {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+}
+
+.miniTable {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--pasp-color-text);
+  font: 400 0.9375rem/1.35 var(--font-primary);
+}
+
+.miniTable thead tr {
+  background-color: #f0f4f8;
+}
+
+.miniTable th {
+  padding: var(--spacing-2) var(--spacing-3);
+  text-align: left;
+  color: var(--pasp-color-label);
+  font: 600 0.75rem/1.25 var(--font-primary);
+  text-transform: uppercase;
+  letter-spacing: 0;
+  border-bottom: 1px solid var(--border-light);
+  white-space: nowrap;
+}
+
+.miniTable td {
+  padding: var(--spacing-2) var(--spacing-3);
+  color: var(--pasp-color-text);
+  font: 400 0.9375rem/1.35 var(--font-primary);
+  border-bottom: 1px solid var(--border-light);
+  white-space: nowrap;
+}
+
+.miniTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.miniTable tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Indicador de fichaje de hoy */
+.fechaCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hoyDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.miniTableLoading,
+.miniTableEmpty {
+  padding: var(--spacing-4) var(--spacing-5);
+  color: var(--pasp-color-text-muted);
+  font: 400 0.875rem/1.45 var(--font-primary);
+  font-style: italic;
+  text-align: center;
+  background: #f0f4f8;
+  border-radius: var(--radius-md);
+}

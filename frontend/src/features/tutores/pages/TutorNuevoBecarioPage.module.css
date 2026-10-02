@@ -1,0 +1,121 @@
+.container {
+  min-height: 100vh;
+  background: var(--pasp-color-page);
+}
+
+.main {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 32px 28px 56px;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-bottom: 28px;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: var(--pasp-color-text);
+  font: 700 1.75rem/1.2 var(--font-primary);
+}
+
+.sectionSubtitle {
+  max-width: 680px;
+  margin: 0;
+  color: var(--pasp-color-text-muted);
+  font: 400 1rem/1.45 var(--font-primary);
+}
+
+.createGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(320px, 0.96fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.createMainColumn,
+.createSideColumn {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.cancelButton,
+.saveButton {
+  min-height: 40px;
+  border-radius: 4px;
+  padding: 0 1.125rem;
+  cursor: pointer;
+  font: 600 0.875rem/1 var(--font-primary);
+}
+
+.cancelButton {
+  border: 1.5px solid var(--pasp-color-border);
+  background: var(--pasp-color-surface);
+  color: var(--pasp-color-label);
+}
+
+.cancelButton:hover:not(:disabled) {
+  background: var(--pasp-color-surface-muted);
+  border-color: var(--pasp-color-placeholder);
+}
+
+.saveButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border: 1px solid #002848;
+  background: #002848;
+  color: #ffffff;
+}
+
+.saveButton:hover:not(:disabled) {
+  background: #003e6b;
+  border-color: #003e6b;
+}
+
+.cancelButton:disabled,
+.saveButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.spinnerSmall {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 20px 16px 36px;
+  }
+
+  .createGrid {
+    grid-template-columns: 1fr;
+  }
+}

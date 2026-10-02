@@ -1,0 +1,160 @@
+/* ========================================
+   BecarioFichajeCard - Tarjeta de fichajes del becario (vista Tutor)
+   ======================================== */
+
+/* Contenido interior — se renderiza dentro de .cardContent del padre */
+.fichajeHistorial {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fichajeHistorialHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.fichajeHistorialTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--pasp-color-text);
+  flex: 1;
+}
+
+.verHistorialButton {
+  padding: 8px 16px;
+  background-color: transparent;
+  color: #145587;
+  border: 1px solid #145587;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.verHistorialButton:hover {
+  background-color: #145587;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(20, 85, 135, 0.2);
+}
+
+.verHistorialButton:active {
+  transform: translateY(0);
+}
+
+/* Mini tabla */
+.miniTableWrapper {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  margin-top: 4px;
+}
+
+.miniTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+  font-family: inherit;
+}
+
+.miniTable thead tr {
+  background-color: #f9fafb;
+}
+
+.miniTable th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--pasp-color-label);
+  text-transform: uppercase;
+  letter-spacing: 0;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.miniTable td {
+  padding: 10px 14px;
+  color: var(--pasp-color-text);
+  border-bottom: 1px solid #f3f4f6;
+  white-space: nowrap;
+  font-size: 0.9375rem;
+}
+
+.miniTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.miniTable tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+.fechaCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hoyDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #10b981;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.miniTableLoading,
+.miniTableEmpty {
+  padding: 32px 24px;
+  font-size: 0.95rem;
+  color: var(--pasp-color-text-muted);
+  font-style: italic;
+  text-align: center;
+  background: #f9fafb;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .fichajeHistorialHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .verHistorialButton {
+    width: 100%;
+  }
+
+  .miniTable th,
+  .miniTable td {
+    padding: 8px 10px;
+    font-size: 0.875rem;
+  }
+
+  .miniTable th {
+    font-size: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,25 @@
+:root {
+  --pasp-color-primary: #145587;
+  --pasp-color-primary-hover: #145d96;
+  --pasp-color-primary-action: #186aab;
+  --pasp-color-danger: #dc2626;
+  --pasp-color-danger-strong: #991b1b;
+  --pasp-color-danger-soft: #fef2f2;
+  --pasp-color-danger-border: #fca5a5;
+  --pasp-color-success: #16a34a;
+  --pasp-color-text: #111827;
+  --pasp-color-text-muted: #6b7280;
+  --pasp-color-label: #374151;
+  --pasp-color-placeholder: #9ca3af;
+  --pasp-color-border: #d1d5db;
+  --pasp-color-border-soft: #e5e7eb;
+  --pasp-color-surface: #ffffff;
+  --pasp-color-surface-muted: #f9fafb;
+  --pasp-color-page: #f3f4f6;
+  --pasp-radius-sm: 6px;
+  --pasp-radius-md: 8px;
+  --pasp-shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --pasp-shadow-toast: 0 4px 16px rgba(0, 0, 0, 0.15);
+  --pasp-focus-ring-primary: 0 0 0 3px rgba(20, 85, 135, 0.12);
+  --pasp-focus-ring-danger: 0 0 0 3px rgba(220, 38, 38, 0.12);
+}

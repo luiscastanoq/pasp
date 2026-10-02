@@ -1,0 +1,159 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  idUsuario              Int            @id @default(autoincrement()) @map("id_usuario")
+  email                  String         @unique @db.VarChar(255)
+  passwordHash           String         @map("password_hash") @db.VarChar(255)
+  rol                    String         @db.VarChar(50)
+  nombre                 String         @db.VarChar(100)
+  apellidos              String         @db.VarChar(150)
+  practica               String?        @db.VarChar(100)
+  cliente                String?        @db.VarChar(100)
+  primerAcceso           Boolean        @default(true) @map("primer_acceso")
+  esSuperAdmin           Boolean        @default(false) @map("es_super_admin")
+  activo                 Boolean        @default(true)
+  createdAt              DateTime       @default(now()) @map("created_at")
+  updatedAt              DateTime       @default(now()) @updatedAt @map("updated_at")
+  becario                Becario?
+  evaluacionesRealizadas Evaluacion[]     @relation("TutorEvaluador")
+  tareasAsignadas        Tarea[]          @relation("TutorAsignador")
+  tutoriasComoTutor      TutorBecario[]   @relation("UsuarioComoTutor")
+  historialCambiosTareas TareaHistorial[] @relation("UsuarioModificador")
+
+  @@index([email], map: "idx_usuarios_email")
+  @@index([rol, activo], map: "idx_usuarios_rol_activo")
+  @@index([cliente], map: "idx_usuarios_cliente")
+  @@index([practica], map: "idx_usuarios_practica")
+  @@map("Usuarios")
+}
+
+model Becario {
+  idBecario                  Int            @id @default(autoincrement()) @map("id_becario")
+  idUsuario                  Int            @unique @map("id_usuario")
+  telefonoPersonal           String?        @map("telefono_personal") @db.VarChar(20)
+  emailPersonal              String?        @map("email_personal") @db.VarChar(255)
+  linkedin                   String?        @db.VarChar(255)
+  tipoFormacion              String?        @map("tipo_formacion") @db.VarChar(50)
+  nombreGradoUniversitario   String?        @map("nombre_grado_universitario") @db.VarChar(200)
+  nombreFormacionProfesional String?        @map("nombre_formacion_profesional") @db.VarChar(200)
+  centroEstudios             String?        @map("centro_estudios") @db.VarChar(200)
+  fechaInicioPracticas       DateTime       @map("fecha_inicio_practicas") @db.Date
+  fechaFinPracticas          DateTime?      @map("fecha_fin_practicas") @db.Date
+  horasContrato              Decimal        @map("horas_contrato") @db.Decimal(7, 2)
+  ayudaEconomica             Int?           @map("ayuda_economica")
+  equipoEnUso                String?        @map("equipo_en_uso") @db.VarChar(100)
+  createdAt                  DateTime       @default(now()) @map("created_at")
+  updatedAt                  DateTime       @default(now()) @updatedAt @map("updated_at")
+  usuario                    Usuario        @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
+  evaluaciones               Evaluacion[]   @relation("BecarioEvaluaciones")
+  fichajes                   Fichaje[]      @relation("BecarioFichajes")
+  tareas                     Tarea[]        @relation("BecarioTareas")
+  tutores                    TutorBecario[] @relation("BecarioTutorias")
+
+  @@index([idUsuario], map: "idx_becarios_usuario")
+  @@index([tipoFormacion], map: "idx_becarios_tipo_formacion")
+  @@map("Becarios")
+}
+
+model TutorBecario {
+  id              Int      @id @default(autoincrement())
+  idTutor         Int      @map("id_tutor")
+  idBecario       Int      @map("id_becario")
+  tipoTutor       String   @map("tipo_tutor") @db.VarChar(50)
+  fechaAsignacion DateTime @default(now()) @map("fecha_asignacion") @db.Date
+  activo          Boolean  @default(true)
+  createdAt       DateTime @default(now()) @map("created_at")
+  becario         Becario  @relation("BecarioTutorias", fields: [idBecario], references: [idBecario], onDelete: Cascade)
+  tutor           Usuario  @relation("UsuarioComoTutor", fields: [idTutor], references: [idUsuario], onUpdate: NoAction)
+
+  @@unique([idBecario, tipoTutor, activo], name: "uq_becario_tipo_activo")
+  @@index([idTutor], map: "idx_tutor_becario_tutor")
+  @@index([idBecario], map: "idx_tutor_becario_becario")
+  @@map("Tutor_Becario")
+}
+
+model Tarea {
+  idTarea          Int              @id @default(autoincrement()) @map("id_tarea")
+  idBecario        Int              @map("id_becario")
+  idTutorAsignador Int              @map("id_tutor_asignador")
+  nombreTarea      String           @map("nombre_tarea") @db.VarChar(200)
+  descripcion      String?          @db.Text
+  estado           String           @db.VarChar(50)
+  fechaInicio      DateTime         @map("fecha_inicio") @db.Date
+  fechaFinEstimada DateTime?        @map("fecha_fin_estimada") @db.Date
+  fechaCompletada  DateTime?        @map("fecha_completada") @db.Date
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @default(now()) @updatedAt @map("updated_at")
+  becario          Becario          @relation("BecarioTareas", fields: [idBecario], references: [idBecario], onDelete: Cascade)
+  tutorAsignador   Usuario          @relation("TutorAsignador", fields: [idTutorAsignador], references: [idUsuario], onUpdate: NoAction)
+  historial        TareaHistorial[] @relation("TareaHistorial")
+
+  @@index([idBecario, estado], map: "idx_tareas_becario_estado")
+  @@index([idTutorAsignador], map: "idx_tareas_tutor")
+  @@index([estado], map: "idx_tareas_estado")
+  @@map("Tareas")
+}
+
+model TareaHistorial {
+  idHistorial            Int      @id @default(autoincrement()) @map("id_historial")
+  idTarea                Int      @map("id_tarea")
+  estadoAnterior         String?  @map("estado_anterior") @db.VarChar(50)
+  estadoNuevo            String   @map("estado_nuevo") @db.VarChar(50)
+  idUsuarioModificador   Int      @map("id_usuario_modificador")
+  fechaCambio            DateTime @default(now()) @map("fecha_cambio")
+  createdAt              DateTime @default(now()) @map("created_at")
+  tarea                  Tarea    @relation("TareaHistorial", fields: [idTarea], references: [idTarea], onDelete: Cascade)
+  usuarioModificador     Usuario  @relation("UsuarioModificador", fields: [idUsuarioModificador], references: [idUsuario], onUpdate: NoAction)
+
+  @@index([idTarea, fechaCambio], map: "idx_tarea_historial_tarea_fecha")
+  @@index([idUsuarioModificador], map: "idx_tarea_historial_usuario")
+  @@map("Tarea_Historial")
+}
+
+model Fichaje {
+  idFichaje       Int       @id @default(autoincrement()) @map("id_fichaje")
+  idBecario       Int       @map("id_becario")
+  fecha           DateTime  @db.Date
+  horaEntrada     DateTime  @map("hora_entrada")
+  horaSalida      DateTime? @map("hora_salida")
+  horasTrabajadas Decimal?  @map("horas_trabajadas") @db.Decimal(5, 2)
+  justificacion   String?   @db.Text
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @default(now()) @updatedAt @map("updated_at")
+  horas_imputadas Decimal?  @db.Decimal(5, 2)
+  becario         Becario   @relation("BecarioFichajes", fields: [idBecario], references: [idBecario], onUpdate: NoAction)
+
+  @@unique([idBecario, fecha], name: "uq_fichaje_becario_fecha")
+  @@index([idBecario, fecha], map: "idx_fichajes_becario_fecha")
+  @@map("Fichajes")
+}
+
+model Evaluacion {
+  idEvaluacion           Int      @id @default(autoincrement()) @map("id_evaluacion")
+  idBecario              Int      @map("id_becario")
+  idTutorEvaluador       Int      @map("id_tutor_evaluador")
+  titulo                 String   @db.VarChar(200)
+  fechaEvaluacion        DateTime @default(now()) @map("fecha_evaluacion") @db.Date
+  puntuacionPuntualidad  Int      @map("puntuacion_puntualidad") @db.TinyInt
+  puntuacionCalidad      Int      @map("puntuacion_calidad") @db.TinyInt
+  puntuacionActitud      Int      @map("puntuacion_actitud") @db.TinyInt
+  puntuacionAutonomia    Int      @map("puntuacion_autonomia") @db.TinyInt
+  puntuacionComunicacion Int      @map("puntuacion_comunicacion") @db.TinyInt
+  puntuacionMedia        Float?   @map("puntuacion_media") @db.Float(53)
+  comentarios            String?  @db.Text
+  createdAt              DateTime @default(now()) @map("created_at")
+  becario                Becario  @relation("BecarioEvaluaciones", fields: [idBecario], references: [idBecario], onDelete: Cascade)
+  tutorEvaluador         Usuario  @relation("TutorEvaluador", fields: [idTutorEvaluador], references: [idUsuario], onUpdate: NoAction)
+
+  @@index([idBecario], map: "idx_evaluaciones_becario")
+  @@index([fechaEvaluacion], map: "idx_evaluaciones_fecha")
+  @@index([idTutorEvaluador], map: "idx_evaluaciones_tutor")
+  @@map("Evaluaciones")
+}

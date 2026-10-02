@@ -1,0 +1,390 @@
+/* ========================================
+   NuevaEvaluacionModal - Modal de nueva evaluación
+   ======================================== */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(17, 24, 39, 0.56);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--spacing-4);
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* El modal usa overflow-y: auto en sí mismo (igual que TareaDetailModal)
+   para que el scroll funcione correctamente */
+.modal {
+  background-color: var(--pasp-color-surface);
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.14);
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.2s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Cabecera (blanca, sticky, borde azul inferior) ── */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-4);
+  min-height: 72px;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.headerTitle {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--pasp-color-text);
+  line-height: 1.3;
+}
+
+.closeBtn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  font-size: 1.75rem;
+  color: #727781;
+  cursor: pointer;
+  padding: 0.25rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1;
+}
+
+.closeBtn:hover:not(:disabled) {
+  background-color: #f8f9fa;
+  color: var(--pasp-color-text);
+}
+
+.closeBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Cuerpo ── */
+
+.body {
+  padding: var(--spacing-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  flex: 1;
+}
+
+/* ── Campos de texto ── */
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--pasp-color-label);
+}
+
+.required {
+  color: #ef4444;
+  margin-left: 2px;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 1.5px solid #d1d5db;
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  font-family: var(--font-primary);
+  color: var(--pasp-color-text);
+  background-color: white;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #004872;
+  box-shadow: 0 0 0 3px rgba(0, 72, 114, 0.12);
+}
+
+.input:disabled,
+.textarea:disabled {
+  background-color: #f9fafb;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.inputError {
+  border-color: #ef4444;
+}
+
+.inputError:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+.errorText {
+  margin: 0;
+  font-size: var(--font-size-xs);
+  color: #ef4444;
+  font-weight: var(--font-weight-medium);
+}
+
+/* ── Sección de puntuaciones ── */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid #e9ecef;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--pasp-color-label);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.scoresGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.scoreRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-4);
+}
+
+.scoreLabel {
+  font-size: 0.9375rem;
+  color: var(--pasp-color-text);
+  font-weight: 400;
+  min-width: 160px;
+  flex-shrink: 0;
+  padding-top: 6px;
+}
+
+.scoreInputCol {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ── Puntuación media ── */
+
+.mediaSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f0f7ff;
+  border: 1.5px solid #bfdbfe;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-3) var(--spacing-4);
+}
+
+.mediaLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--pasp-color-text);
+}
+
+.mediaValue {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #004872;
+  letter-spacing: 0.02em;
+}
+
+/* ── Error de envío ── */
+
+.submitError {
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-md);
+  color: #b91c1c;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ── Footer ── */
+
+.footer {
+  padding: var(--spacing-4) var(--spacing-5);
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+  flex-shrink: 0;
+  background: white;
+  position: sticky;
+  bottom: 0;
+}
+
+/* Cancelar (outline azul) */
+.cancelBtn {
+  padding: 0.5rem 1.125rem;
+  background-color: white;
+  color: #374151;
+  border: 1.5px solid #d1d5db;
+  border-radius: 6px;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  font-family: var(--font-primary);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.cancelBtn:hover:not(:disabled) {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.cancelBtn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Guardar (sólido azul — acción primaria) */
+.submitBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: 0.5rem 1.125rem;
+  background-color: #002848;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  font-family: var(--font-primary);
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background-color: #003e6b;
+}
+
+.submitBtn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Spinner pequeño */
+.spinnerSmall {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 560px) {
+  .backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .modal {
+    max-width: 100%;
+    max-height: 92vh;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .header {
+    padding: 1.25rem 1.25rem 1rem;
+  }
+
+  .body {
+    padding: var(--spacing-4);
+  }
+
+  .scoreRow {
+    flex-direction: column;
+    gap: var(--spacing-1);
+  }
+
+  .scoreLabel {
+    min-width: unset;
+    padding-top: 0;
+  }
+
+  .footer {
+    flex-direction: column-reverse;
+    padding: var(--spacing-4) var(--spacing-4);
+  }
+
+  .cancelBtn,
+  .submitBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}
