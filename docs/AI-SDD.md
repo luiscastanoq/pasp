@@ -34,7 +34,6 @@ un plan y contrastar la implementación con criterios de aceptación explícitos
 - [3. Diseño de interfaces con IA en Stitch](#3-diseño-de-interfaces-con-ia-en-stitch)
 - [4. Verificación y definición de terminado](#4-verificación-y-definición-de-terminado)
 - [5. Aprendizajes y evolución del método](#5-aprendizajes-y-evolución-del-método)
-- [6. Referencias metodológicas](#6-referencias-metodológicas)
 
 ## 1. Ciclo SDD aplicado a PASP
 
