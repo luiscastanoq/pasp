@@ -7,7 +7,7 @@
     "node": "24.x"
   },
   "scripts": {
-    "dev": "nodemon --exec ts-node --files src/server.ts",
+    "dev": "node --watch node_modules/ts-node/dist/bin.js --files src/server.ts",
     "dev:azure:demo": "node --env-file=.env.azure node_modules/ts-node/dist/bin.js --files src/server.ts",
     "build": "tsc",
     "postinstall": "prisma generate --schema=prisma/schema.prisma",
@@ -52,7 +52,6 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "globals": "^17.4.0",
-    "nodemon": "^3.1.14",
     "prettier": "^3.8.1",
     "prisma": "^6.19.3",
     "supertest": "^7.2.2",
