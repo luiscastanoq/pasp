@@ -13,6 +13,17 @@ a cada rol.
 > consulta: permiten recorrer paneles y formularios, pero la API rechaza cualquier
 > operación de escritura y explica que el cambio no se ha aplicado.
 
+## Mi aportación
+
+Soy **Luis Alberto Castaño Quero**, autor de PASP. Desarrollé la aplicación durante
+mis prácticas estudiantiles en respuesta a una necesidad de **ViewNext**. Mi
+aportación comprende el desarrollo del frontend y la API, las decisiones de
+producto y arquitectura, y la revisión de los cambios realizados con apoyo de IA.
+
+Después adapté el proyecto, con autorización, a esta demo pública: identidad
+propia, datos ficticios, acceso por roles, bloqueo de escrituras en el servidor
+y despliegue en GitHub Pages y Azure.
+
 ![Selección de perfiles de la demo](docs/images/pasp-demo-access.png)
 
 ## Qué problema resuelve
@@ -103,36 +114,21 @@ tratar información personal real ni a sustituir un despliegue empresarial.
 
 ## Desarrollo asistido por IA
 
-PASP también documenta una forma responsable de incorporar IA agéntica al
-desarrollo de software. La IA se utilizó como herramienta de ingeniería para
-analizar el repositorio, proponer planes, implementar cambios acotados, revisar
-seguridad, mantener documentación y operar despliegues supervisados.
+Utilicé **Cline y Codex** como apoyo a la ingeniería y **Stitch** para el diseño
+de interfaces. Tres prácticas organizan la explicación del proceso:
 
-El trabajo siguió estas prácticas:
+1. **Requisitos y trazabilidad:** la [SPEC-022](specs/spec-022.md) conecta reglas
+   y criterios de aceptación con el código de la demo. Es una reconstrucción
+   retrospectiva; no acredita una especificación previa a la implementación.
+2. **Contexto y supervisión humana:** [AGENTS.md](AGENTS.md) define las reglas
+   vigentes; la [memoria de Cline](.cline/memory/) conserva contexto histórico.
+   Las decisiones de producto, permisos y publicación corresponden al autor.
+3. **Verificación independiente:** los [workflows](.github/workflows/) ejecutan
+   lint, pruebas y compilación antes del despliegue. Sus resultados permiten
+   contrastar las propuestas de IA con controles automatizados.
 
-1. **Spec driven development:** objetivos, restricciones y criterios de aceptación
-   explícitos orientan el trabajo. La especificación pública de la demo es
-   retrospectiva; la guía de IA distingue evidencias conservadas y un ciclo SDD
-   propuesto para dar continuidad al proyecto.
-2. **Contexto persistente:** reglas, patrones técnicos y estado del proyecto se
-   conservaron en documentos versionados para reducir contradicciones entre sesiones.
-3. **Descomposición y trazabilidad:** los cambios se dividieron en tareas
-   pequeñas y commits con una intención concreta.
-4. **Supervisión humana:** las decisiones de producto, identidad, permisos,
-   exposición pública y publicación fueron tomadas o aprobadas por el autor.
-5. **Defensa en profundidad:** las restricciones críticas se implementaron en
-   el backend y no se confiaron únicamente a instrucciones dadas a la IA o a la interfaz.
-6. **Verificación independiente:** lint, pruebas y compilación forman parte de
-   los flujos de integración y despliegue, de modo que una propuesta de IA debe
-   superar controles deterministas.
-7. **Protección de secretos y datos:** las credenciales permanecen fuera del
-   repositorio y la versión pública utiliza una base exclusivamente ficticia.
-
-La IA aceleró la exploración y la ejecución, pero no sustituyó la comprensión
-del sistema ni la responsabilidad sobre los cambios. El proceso completo y sus
-evidencias se describen en
-[`docs/AI-SDD.md`](docs/AI-SDD.md).
-
+La [guía de desarrollo asistido por IA](docs/AI-SDD.md) detalla las herramientas,
+las evidencias conservadas y el ciclo SDD propuesto para continuar el proyecto.
 
 ## Ejecución local
 
@@ -220,8 +216,6 @@ pasp/
 ```
 
 ## Documentación
-
-- [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md): configuración del repositorio público y despliegues.
 
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): estructura y decisiones técnicas.
 - [`docs/DATABASE.md`](docs/DATABASE.md): modelo, relaciones, migraciones y semilla.

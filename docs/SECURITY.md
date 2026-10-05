@@ -500,4 +500,7 @@ La versión 8 introduce cambios incompatibles, descritos en sus
 [notas de publicación](https://github.com/RebeccaStevens/deepmerge-ts/releases/tag/v8.0.0).
 No se fuerza mediante `overrides` ni se retrocede Prisma para silenciar el
 informe. Queda pendiente una solución compatible y validada en generación del
-cliente, configuración y operaciones de Prisma. La alerta permanece abierta.
+cliente, configuración y operaciones de Prisma. GitHub descartó automáticamente
+la alerta mediante la regla para avisos de bajo impacto en dependencias de
+desarrollo. Ese estado no corrige la dependencia: el aviso sigue pendiente
+técnicamente.
