@@ -476,3 +476,28 @@ al panel de administración y se comprueba el rechazo.
 | Modelo de datos | `backend/prisma/schema.prisma` |
 | Sesión del frontend | `frontend/src/shared/api/api.ts` |
 | Contexto de autenticación | `frontend/src/features/auth/context/AuthContext.tsx` |
+
+## Mantenimiento de dependencias
+
+Las actualizaciones de seguridad se revisan por proyecto y se registran en los
+archivos de bloqueo generados por npm. Un informe sin avisos conocidos no
+sustituye la validación del comportamiento antes de publicar los cambios.
+
+### Dependencia pendiente de Prisma
+
+Prisma 6.19.3 depende de `@prisma/config` 6.19.3, que fija `deepmerge-ts` en
+7.1.5. El aviso [GHSA-ggr8-5vv4-36mx](https://github.com/advisories/GHSA-ggr8-5vv4-36mx)
+afecta a versiones anteriores a 8.0.0 y describe agotamiento de pila al fusionar
+grafos de objetos con referencias circulares.
+
+PASP no importa directamente esta biblioteca ni contiene un archivo
+`prisma.config.ts`. Esto limita el uso observado, pero no elimina la dependencia
+ni permite afirmar que la alerta esté resuelta. La biblioteca forma parte de la
+cadena de configuración de Prisma; también puede intervenir en herramientas de
+instalación y administración.
+
+La versión 8 introduce cambios incompatibles, descritos en sus
+[notas de publicación](https://github.com/RebeccaStevens/deepmerge-ts/releases/tag/v8.0.0).
+No se fuerza mediante `overrides` ni se retrocede Prisma para silenciar el
+informe. Queda pendiente una solución compatible y validada en generación del
+cliente, configuración y operaciones de Prisma. La alerta permanece abierta.

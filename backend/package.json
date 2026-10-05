@@ -7,7 +7,7 @@
     "node": "24.x"
   },
   "scripts": {
-    "dev": "nodemon --exec ts-node --files src/server.ts",
+    "dev": "node --watch node_modules/ts-node/dist/bin.js --files src/server.ts",
     "dev:azure:demo": "node --env-file=.env.azure node_modules/ts-node/dist/bin.js --files src/server.ts",
     "build": "tsc",
     "postinstall": "prisma generate --schema=prisma/schema.prisma",
@@ -47,19 +47,18 @@
     "@types/supertest": "^7.2.0",
     "@typescript-eslint/eslint-plugin": "^8.58.1",
     "@typescript-eslint/parser": "^8.58.1",
-    "@vitest/coverage-v8": "^4.1.10",
+    "@vitest/coverage-v8": "^4.1.11",
     "eslint": "^10.2.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "globals": "^17.4.0",
-    "nodemon": "^3.1.14",
     "prettier": "^3.8.1",
     "prisma": "^6.19.3",
     "supertest": "^7.2.2",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.58.1",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.11"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",

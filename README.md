@@ -169,6 +169,10 @@ npm run migrate:deploy
 npm run dev
 ```
 
+El comando `npm run dev` utiliza el modo `--watch` de Node.js 24 para reiniciar
+la API cuando cambian los archivos cargados, y conserva `ts-node --files` para
+ejecutar TypeScript en desarrollo.
+
 La API estará disponible en `http://localhost:3001`; su endpoint básico de
 salud es `http://localhost:3001/api/v1/health`.
 
