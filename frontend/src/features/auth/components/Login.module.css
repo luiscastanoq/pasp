@@ -31,6 +31,10 @@
   max-width: 760px;
 }
 
+.demoProgress {
+  width: 100%;
+}
+
 .card {
   background-color: var(--bg-elevated);
   border: 1px solid var(--border-light);
@@ -165,7 +169,6 @@
   color: var(--text-secondary);
   font-size: 14px;
   line-height: 1.5;
-  flex: 1;
 }
 .roleCard button {
   display: flex;
@@ -194,8 +197,7 @@
   opacity: 0.6;
   cursor: wait;
 }
-.roleCard .errorMessage,
-.roleCard .preparingMessage {
+.roleCard .errorMessage {
   margin-top: var(--spacing-3);
 }
 @media (max-width: 540px) {
@@ -312,6 +314,48 @@
 
 .backgroundPreparingMessage {
   border-left-width: 1px;
+}
+
+.loginProgress {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.progressHeading {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.progressHeading .spinner {
+  width: 16px;
+  height: 16px;
+  flex-basis: 16px;
+}
+
+.elapsedTime {
+  margin-left: auto;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.responseStatus {
+  font-size: 12px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 .spinner {

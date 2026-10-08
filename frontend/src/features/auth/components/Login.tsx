@@ -9,7 +9,7 @@ import { authService, type LoginCredentials } from '../services/authService';
 import { ApiError } from '../../../shared/api/api';
 import { PasswordInput } from '../../../shared/components/PasswordInput';
 import styles from './Login.module.css';
-import type { LoginStatus } from '../context/auth-context';
+import { LoginProgress } from './LoginProgress';
 import {
   ROLES,
   type RolUsuario,
@@ -39,32 +39,6 @@ const demoRoles = [
 ];
 
 const DATABASE_PREWARM_DELAY_MS = 1_000;
-
-type ActiveLoginStatus = Exclude<LoginStatus, 'idle'>;
-
-function LoginProgress({ status }: { status: ActiveLoginStatus }) {
-  return (
-    <div className={styles.preparingMessage} role="status" aria-live="polite">
-      <span className={styles.spinner} aria-hidden="true" />
-      <span>
-        {status === 'waking-database' ? (
-          <>
-            <strong>Estamos preparando el sistema.</strong>
-            <br />
-            La base de datos se está iniciando. El acceso continuará
-            automáticamente. (30s)
-          </>
-        ) : (
-          <>
-            <strong>Conectando con el sistema.</strong>
-            <br />
-            El proceso puede demorar unos minutos (1min)
-          </>
-        )}
-      </span>
-    </div>
-  );
-}
 
 export function Login() {
   const { login, isLoading, loginStatus } = useAuth();
@@ -161,7 +135,7 @@ export function Login() {
         {showDemoAccess ? (
           <section className={styles.card} aria-labelledby="demo-title">
             <h2 id="demo-title" className={styles.sectionTitle}>
-               Explora la aplicación
+              Explora la aplicación
             </h2>
             <p className={styles.demoIntro}>
               Elige un perfil para acceder a la demo con datos ficticios.
@@ -181,9 +155,6 @@ export function Login() {
                       : `Entrar como ${label.toLowerCase()}`}{' '}
                     <span aria-hidden="true">→</span>
                   </button>
-                  {activeDemoRole === role && loginStatus !== 'idle' && (
-                    <LoginProgress status={loginStatus} />
-                  )}
                   {demoError?.role === role && (
                     <div className={styles.errorMessage} role="alert">
                       {demoError.message}
@@ -246,7 +217,7 @@ export function Login() {
               )}
 
               {activeDemoRole === null && loginStatus !== 'idle' ? (
-                <LoginProgress status={loginStatus} />
+                <LoginProgress />
               ) : activeDemoRole === null && isBackgroundWaking ? (
                 <div
                   className={`${styles.preparingMessage} ${styles.backgroundPreparingMessage}`}
@@ -267,27 +238,31 @@ export function Login() {
                 disabled={isLoading}
                 className={styles.button}
               >
-                {isLoading && activeDemoRole === null ? (
-                  <span className={styles.buttonSpinner} aria-hidden="true" />
-                ) : null}
                 {activeDemoRole !== null
                   ? 'Iniciar Sesión'
-                  : loginStatus === 'waking-database'
-                    ? 'Preparando el sistema...'
-                    : isLoading
-                      ? 'Iniciando sesión...'
-                      : 'Iniciar Sesión'}
+                  : isLoading
+                    ? 'Preparando acceso...'
+                    : 'Iniciar Sesión'}
               </button>
             </form>
           </div>
         )}
+        {showDemoAccess &&
+          activeDemoRole !== null &&
+          loginStatus !== 'idle' && (
+            <div className={styles.demoProgress}>
+              <LoginProgress />
+            </div>
+          )}
         <button
           type="button"
           className={styles.switchLink}
           onClick={switchAccess}
           disabled={isLoading}
         >
-          {showDemoAccess ? 'Acceso con credenciales →' : 'Explora la aplicación (demo) →'}
+          {showDemoAccess
+            ? 'Acceso con credenciales →'
+            : 'Explora la aplicación (demo) →'}
         </button>
       </div>
     </div>

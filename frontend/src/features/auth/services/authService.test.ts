@@ -2,7 +2,11 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ApiError, fetchApi, setToken, setUser } from '../../../shared/api/api';
 import { authService } from './authService';
-import type { LoginCredentials, LoginResponse } from './authService';
+import type {
+  DatabaseReadinessStatus,
+  LoginCredentials,
+  LoginResponse,
+} from './authService';
 
 vi.mock('../../../shared/api/api', async importOriginal => {
   const actual =
@@ -53,6 +57,45 @@ const databaseWakingError = new ApiError(
 );
 
 describe('authService.login', () => {
+  it('publica respuestas reales y conserva su hora durante una consulta pendiente', async () => {
+    vi.useFakeTimers();
+    const updates: DatabaseReadinessStatus[] = [];
+    const unsubscribe = authService.subscribeDatabaseReadiness(status =>
+      updates.push(status)
+    );
+    const onDatabaseReady = vi.fn();
+    let resolveReadiness!: (value: unknown) => void;
+    vi.mocked(fetchApi)
+      .mockRejectedValueOnce(databaseWakingError)
+      .mockReturnValueOnce(
+        new Promise(resolve => {
+          resolveReadiness = resolve;
+        })
+      )
+      .mockResolvedValueOnce(loginResponse);
+    try {
+      const result = authService.login(credentials, { onDatabaseReady });
+      await vi.advanceTimersByTimeAsync(0);
+      const waking = updates.at(-1)!;
+      expect(waking.phase).toBe('waking');
+      expect(waking.lastResponseAt).toBe(Date.now());
+      await vi.advanceTimersByTimeAsync(5_000);
+      expect(updates.at(-1)).toEqual({
+        phase: 'checking',
+        lastResponseAt: waking.lastResponseAt,
+      });
+      expect(onDatabaseReady).not.toHaveBeenCalled();
+      resolveReadiness({ success: true });
+      await result;
+      expect(updates.at(-1)).toEqual({
+        phase: 'ready',
+        lastResponseAt: Date.now(),
+      });
+      expect(onDatabaseReady).toHaveBeenCalledOnce();
+    } finally {
+      unsubscribe();
+    }
+  });
   it('solicita una sesión demo enviando solamente el rol', async () => {
     vi.mocked(fetchApi)
       .mockResolvedValueOnce({ success: true })

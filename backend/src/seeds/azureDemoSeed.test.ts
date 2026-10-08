@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { isMarcosIntern } from './demoTaskHistory';
 import {
   ESTADO_TAREA,
   ROLES,
@@ -134,7 +135,7 @@ describe('azureDemoSeed.data', () => {
     expect(DEMO_INTERNS.length * 3).toBe(DEMO_EXPECTED_COUNTS.tutorAssignments);
   });
 
-  it('hace que cada tutor de empresa supervise tres becarios', () => {
+  it('asigna cinco becarios a los tutores de AeroNova y tres al resto', () => {
     const assignments = new Map<string, number>();
 
     for (const intern of DEMO_INTERNS) {
@@ -149,7 +150,9 @@ describe('azureDemoSeed.data', () => {
     }
 
     for (const tutor of DEMO_COMPANY_TUTORS) {
-      expect(assignments.get(tutor.key)).toBe(3);
+      expect(assignments.get(tutor.key)).toBe(
+        tutor.key.startsWith('aeronova-') ? 5 : 3
+      );
     }
   });
 
@@ -164,8 +167,8 @@ describe('azureDemoSeed.data', () => {
     );
 
     expect(assignments).toEqual({
-      'academico-julia': 5,
-      'academico-andres': 5,
+      'academico-julia': 6,
+      'academico-andres': 6,
       'academico-beatriz': 4,
       'academico-miguel': 4,
     });
@@ -218,9 +221,11 @@ describe('azureDemoSeed.data', () => {
       0
     );
 
-    expect(historyEntriesPerIntern * DEMO_INTERNS.length).toBe(
-      DEMO_EXPECTED_COUNTS.taskHistoryEntries
-    );
+    const marcosInterns = DEMO_INTERNS.filter(isMarcosIntern).length;
+    expect(
+      historyEntriesPerIntern * (DEMO_INTERNS.length - marcosInterns) +
+        marcosInterns * 30
+    ).toBe(DEMO_EXPECTED_COUNTS.taskHistoryEntries);
   });
 
   it('define evaluaciones válidas y suficientes para todos los becarios', () => {

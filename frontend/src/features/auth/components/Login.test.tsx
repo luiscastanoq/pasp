@@ -122,14 +122,16 @@ describe('Login', () => {
     expect(screen.getByLabelText('Email')).toBeDisabled();
     expect(screen.getByLabelText(/^Contrase/)).toBeDisabled();
     const connectionStatus = screen.getByRole('status');
-    expect(connectionStatus).toHaveTextContent(/Conectando con el sistema/);
-    expect(connectionStatus).toHaveTextContent(
-      /El proceso puede demorar unos minutos \(1min\)/
+    expect(connectionStatus).toHaveTextContent(/Comprobando disponibilidad/);
+    expect(screen.getByText(/Reactivando el servicio/)).toHaveTextContent(
+      /Entrarás automáticamente/
     );
     expect(connectionStatus).not.toHaveTextContent(
       /Estamos comprobando que todos los servicios/
     );
-    expect(screen.getByRole('button', { name: /Iniciando/ })).toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: /Preparando acceso/ })
+    ).toBeDisabled();
   });
 
   it('avisa del calentamiento anticipado sin bloquear el formulario', async () => {
@@ -162,12 +164,11 @@ describe('Login', () => {
     } as never);
     render(<Login />);
 
-    expect(screen.getByRole('status')).toHaveTextContent(
-      /La base de datos se está iniciando/
-    );
-    expect(screen.getByRole('status')).toHaveTextContent(/\(30s\)/);
+    expect(screen.getByText(/Reactivando el servicio/)).toBeVisible();
+    expect(screen.getByLabelText(/Tiempo de espera/)).toHaveTextContent('0 s');
+    expect(screen.queryByText(/\(30s\)/)).not.toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: /Preparando el sistema/ })
+      screen.getByRole('button', { name: /Preparando acceso/ })
     ).toBeDisabled();
   });
 

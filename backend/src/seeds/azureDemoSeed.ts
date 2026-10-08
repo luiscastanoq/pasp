@@ -3,6 +3,7 @@ import * as bcrypt from 'bcrypt';
 import { randomBytes } from 'node:crypto';
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { createDemoTaskHistory, isMarcosIntern } from './demoTaskHistory';
 import {
   ESTADO_TAREA,
   TIPO_TUTORIA,
@@ -373,7 +374,12 @@ async function applyDemoSeed(target: DatabaseTarget): Promise<void> {
                 )
               : null;
 
-          const history =
+          let history: {
+            estadoAnterior: string | null;
+            estadoNuevo: string;
+            idUsuarioModificador: number;
+            fechaCambio: Date;
+          }[] =
             estado === ESTADO_TAREA.COMPLETADA
               ? [
                   {
@@ -399,6 +405,22 @@ async function applyDemoSeed(target: DatabaseTarget): Promise<void> {
                     },
                   ]
                 : [];
+
+          if (isMarcosIntern(intern)) {
+            const internUserId = userIdsByKey.get(intern.key);
+            if (!internUserId)
+              throw new Error(`No existe el usuario ${intern.key}.`);
+            history = createDemoTaskHistory(
+              {
+                estado,
+                fechaInicio: taskStart,
+                fechaFinEstimada: taskDue,
+                fechaCompletada: completedAt,
+                idTutorAsignador: tutorId,
+              },
+              internUserId
+            );
+          }
 
           await transaction.tarea.create({
             data: {

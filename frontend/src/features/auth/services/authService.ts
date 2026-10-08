@@ -26,6 +26,23 @@ export interface LoginCredentials {
 
 export interface LoginOptions {
   onDatabaseWaking?: () => void;
+  onDatabaseReady?: () => void;
+}
+
+export interface DatabaseReadinessStatus {
+  phase: 'checking' | 'waking' | 'ready';
+  lastResponseAt: number | null;
+}
+
+let readinessStatus: DatabaseReadinessStatus = {
+  phase: 'checking',
+  lastResponseAt: null,
+};
+const readinessListeners = new Set<(status: DatabaseReadinessStatus) => void>();
+
+function publishReadiness(status: DatabaseReadinessStatus): void {
+  readinessStatus = status;
+  readinessListeners.forEach(listener => listener(status));
 }
 
 export type AccessCredentials = LoginCredentials | { role: RolUsuario };
@@ -102,14 +119,17 @@ async function waitForDatabaseReady(
   onDatabaseWaking?: () => void
 ): Promise<void> {
   for (let attempt = 1; attempt <= DATABASE_READY_MAX_ATTEMPTS; attempt += 1) {
+    publishReadiness({ ...readinessStatus, phase: 'checking' });
     try {
       await fetchApi('/health/ready');
+      publishReadiness({ phase: 'ready', lastResponseAt: Date.now() });
       return;
     } catch (error) {
       if (!isDatabaseWakingUpError(error)) {
         throw error;
       }
 
+      publishReadiness({ phase: 'waking', lastResponseAt: Date.now() });
       onDatabaseWaking?.();
 
       if (attempt < DATABASE_READY_MAX_ATTEMPTS) {
@@ -132,6 +152,7 @@ function notifyDatabaseWaking(): void {
 
 function getSharedDatabaseReadiness(): Promise<void> {
   if (!databaseReadinessPromise) {
+    publishReadiness({ phase: 'checking', lastResponseAt: null });
     databaseReadinessPromise = (async () => {
       try {
         await waitForDatabaseReady(notifyDatabaseWaking);
@@ -182,6 +203,15 @@ async function requestLogin(
  * Servicio de autenticación
  */
 export const authService = {
+  subscribeDatabaseReadiness(
+    listener: (status: DatabaseReadinessStatus) => void
+  ): () => void {
+    readinessListeners.add(listener);
+    listener(readinessStatus);
+    return () => {
+      readinessListeners.delete(listener);
+    };
+  },
   /**
    * Empieza a preparar Azure SQL sin bloquear la pantalla de login.
    * Si ya hay una comprobación en curso, reutiliza la misma promesa.
@@ -198,6 +228,7 @@ export const authService = {
     options: LoginOptions = {}
   ): Promise<LoginResponse> {
     await ensureDatabaseReady(options.onDatabaseWaking);
+    options.onDatabaseReady?.();
 
     let response: LoginResponse;
 
@@ -212,6 +243,7 @@ export const authService = {
 
       options.onDatabaseWaking?.();
       await ensureDatabaseReady(options.onDatabaseWaking);
+      options.onDatabaseReady?.();
       response = await requestLogin(credentials);
     }
 

@@ -81,6 +81,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         onDatabaseWaking: () => {
           setLoginStatus('waking-database');
         },
+        onDatabaseReady: () => {
+          setLoginStatus('authenticating');
+        },
       });
 
       if (response.success) {

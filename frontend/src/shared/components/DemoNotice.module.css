@@ -22,12 +22,17 @@
   margin: 0 0 24px;
 }
 .dialog button {
-  padding: 12px 20px;
+  display: block;
+  margin-left: auto;
+  min-height: 36px;
+  padding: 8px 14px;
   border: 0;
-  border-radius: 8px;
+  border-radius: 6px;
   background: #004872;
   color: white;
   font: inherit;
+  font-size: 14px;
+  line-height: 20px;
   cursor: pointer;
 }
 .dialog button:focus-visible {

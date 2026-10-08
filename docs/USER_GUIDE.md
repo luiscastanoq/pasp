@@ -45,6 +45,15 @@ sistema o la conexión. PASP esperará a que la base de datos responda y volver�
 intentar el acceso durante un tiempo limitado. No es necesario recargar la
 página mientras se muestre ese estado.
 
+El aviso muestra el tiempo transcurrido desde que se solicita el acceso y cuánto
+hace que respondió el servidor. Esta última información solo se actualiza con
+respuestas reales, no al avanzar el contador. Mientras hay una consulta pendiente,
+se indica que se está comprobando la disponibilidad; cuando la base está lista,
+se anuncia que continúa el inicio de sesión. En la demo, el aviso aparece debajo
+del panel de los cuatro roles, antes del enlace «Acceso con credenciales», y los
+demás accesos quedan deshabilitados. El botón del perfil seleccionado indica
+«Preparando acceso…».
+
 Si el sistema tarda más de lo esperado, se mostrará un mensaje para volver a
 intentarlo más tarde. Tras varios intentos de acceso fallidos también puede
 aplicarse un bloqueo temporal.
