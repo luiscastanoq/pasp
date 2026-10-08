@@ -28,6 +28,9 @@ export interface BecarioSummary {
   ayudaEconomica: number | null;
   equipoEnUso: string | null;
   tareasAsignadas?: number; // Número de tareas asignadas actualmente
+  tareasPendientes?: number;
+  tareasEnProgreso?: number;
+  tareasCompletadas?: number;
   ultimoFichaje?: string | null; // Fecha del último fichaje (formato ISO)
   // Información académica (v2.0)
   tipoFormacion: TipoFormacion | TipoFormacionLegacy | null;

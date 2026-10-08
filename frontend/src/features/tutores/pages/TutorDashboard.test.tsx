@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
@@ -152,5 +152,104 @@ describe('TutorDashboard', () => {
     await user.click(await screen.findByRole('row', { name: 'Ver detalles de Ana Lopez' }));
 
     expect(screen.getByText('Detalle de Ana')).toBeInTheDocument();
+  });
+  it('muestra los contadores reales por estado, incluso con tareas solo completadas o sin tareas', async () => {
+    vi.mocked(getMyBecarios).mockResolvedValue([
+      {
+        ...ana,
+        tareasAsignadas: 6,
+        tareasEnProgreso: 1,
+        tareasPendientes: 1,
+        tareasCompletadas: 4,
+      },
+      {
+        ...bruno,
+        tareasAsignadas: 3,
+        tareasEnProgreso: 0,
+        tareasPendientes: 0,
+        tareasCompletadas: 3,
+      },
+      {
+        ...ana,
+        idBecario: 5,
+        nombre: 'Celia',
+        tareasAsignadas: 0,
+        tareasEnProgreso: 0,
+        tareasPendientes: 0,
+        tareasCompletadas: 0,
+      },
+    ]);
+    renderDashboard();
+
+    for (const [name, expected] of [
+      ['Ana Lopez', ['1', '1', '4']],
+      ['Bruno Martin', ['0', '0', '3']],
+      ['Celia Lopez', ['0', '0', '0']],
+    ] as const) {
+      const row = await screen.findByRole('row', {
+        name: `Ver detalles de ${name}`,
+      });
+      const cells = within(row).getAllByRole('cell');
+      expect(cells.slice(-4, -1).map(cell => cell.textContent)).toEqual(
+        expected
+      );
+    }
+  });
+
+  it('no inventa contadores cuando la API todavía no incluye el desglose', async () => {
+    vi.mocked(getMyBecarios).mockResolvedValue([ana]);
+    renderDashboard();
+    const row = await screen.findByRole('row', {
+      name: 'Ver detalles de Ana Lopez',
+    });
+    expect(
+      within(row)
+        .getAllByRole('cell')
+        .slice(-4, -1)
+        .map(cell => cell.textContent)
+    ).toEqual(['—', '—', '—']);
+  });
+
+  it('actualiza los contadores al regresar del detalle mediante el historial', async () => {
+    vi.mocked(getMyBecarios)
+      .mockResolvedValueOnce([
+        {
+          ...ana,
+          tareasPendientes: 1,
+          tareasEnProgreso: 1,
+          tareasCompletadas: 4,
+        },
+      ])
+      .mockResolvedValue([
+        {
+          ...ana,
+          tareasPendientes: 0,
+          tareasEnProgreso: 1,
+          tareasCompletadas: 5,
+        },
+      ]);
+    const user = userEvent.setup();
+    renderDashboard();
+    await user.click(
+      await screen.findByRole('row', { name: 'Ver detalles de Ana Lopez' })
+    );
+    expect(screen.getByText('Detalle de Ana')).toBeInTheDocument();
+
+    act(() =>
+      window.dispatchEvent(
+        new PopStateEvent('popstate', { state: { tutorView: 'dashboard' } })
+      )
+    );
+
+    const row = await screen.findByRole('row', {
+      name: 'Ver detalles de Ana Lopez',
+    });
+    expect(
+      within(row)
+        .getAllByRole('cell')
+        .slice(-4, -1)
+        .map(cell => cell.textContent)
+    ).toEqual(['1', '0', '5']);
+    expect(getMyBecarios).toHaveBeenCalledTimes(2);
   });
 });

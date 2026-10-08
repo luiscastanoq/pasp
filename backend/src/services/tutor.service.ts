@@ -2,6 +2,7 @@ import type { Prisma } from '@prisma/client';
 import { prisma } from '../database/prisma';
 import { createErrorWithCause } from '../shared/errors';
 import {
+  ESTADO_TAREA,
   TIPO_TUTORIA,
   TIPO_FORMACION,
   TIPOS_TUTORIA,
@@ -89,13 +90,40 @@ async function getBecariosAsignadosByTutorId(
       },
     });
 
-    // Mapear los resultados y contar tareas manualmente para cada becario
-    const becariosPromises = relaciones.map(async rel => {
-      // Contar tareas manualmente para este becario
-      const tareasCount = await prisma.tarea.count({
-        where: { idBecario: rel.becario.idBecario },
-      });
+    const tareasPorEstado = relaciones.length
+      ? await prisma.tarea.groupBy({
+          by: ['idBecario', 'estado'],
+          where: { idBecario: { in: relaciones.map(rel => rel.idBecario) } },
+          _count: { _all: true },
+        })
+      : [];
+    const contadores = new Map<
+      number,
+      {
+        tareasAsignadas: number;
+        tareasPendientes: number;
+        tareasEnProgreso: number;
+        tareasCompletadas: number;
+      }
+    >();
+    for (const grupo of tareasPorEstado) {
+      const conteo = contadores.get(grupo.idBecario) ?? {
+        tareasAsignadas: 0,
+        tareasPendientes: 0,
+        tareasEnProgreso: 0,
+        tareasCompletadas: 0,
+      };
+      conteo.tareasAsignadas += grupo._count._all;
+      if (grupo.estado === ESTADO_TAREA.PENDIENTE)
+        conteo.tareasPendientes += grupo._count._all;
+      if (grupo.estado === ESTADO_TAREA.EN_PROGRESO)
+        conteo.tareasEnProgreso += grupo._count._all;
+      if (grupo.estado === ESTADO_TAREA.COMPLETADA)
+        conteo.tareasCompletadas += grupo._count._all;
+      contadores.set(grupo.idBecario, conteo);
+    }
 
+    const becariosPromises = relaciones.map(async rel => {
       // Obtener el último fichaje del becario (solo necesitamos la fecha)
       const ultimoFichaje = await prisma.fichaje.findFirst({
         where: { idBecario: rel.becario.idBecario },
@@ -118,8 +146,12 @@ async function getBecariosAsignadosByTutorId(
         horasContrato: Number(rel.becario.horasContrato), // Convertir Decimal a number - Horas pactadas en contrato
         ayudaEconomica: rel.becario.ayudaEconomica,
         equipoEnUso: rel.becario.equipoEnUso,
-        // Conteo manual de tareas asignadas al becario
-        tareasAsignadas: tareasCount,
+        ...(contadores.get(rel.becario.idBecario) ?? {
+          tareasAsignadas: 0,
+          tareasPendientes: 0,
+          tareasEnProgreso: 0,
+          tareasCompletadas: 0,
+        }),
         // Fecha del último fichaje
         ultimoFichaje: ultimoFichaje?.fecha || null,
         // Información académica (nueva estructura v2.0)

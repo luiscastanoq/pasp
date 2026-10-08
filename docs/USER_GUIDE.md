@@ -214,7 +214,8 @@ El panel muestra los becarios asignados al tutor e incluye:
 - Último fichaje.
 - Estado de la cuenta.
 - Estado del primer acceso.
-- Resumen de tareas.
+- Número real de tareas en progreso, pendientes y completadas de cada becario.
+  Los contadores se actualizan al volver desde el detalle al panel.
 - Acciones de gestión.
 
 Es posible buscar por nombre, apellidos o correo y recorrer los resultados

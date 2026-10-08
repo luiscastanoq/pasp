@@ -559,7 +559,6 @@ export const TutorDashboard = () => {
                   </thead>
                   <tbody>
                     {becariosPaginados.map(becario => {
-                      const tareasAsignadas = becario.tareasAsignadas ?? 0;
                       const primerAcceso = getPrimerAccesoStatus(becario);
                       const actionInProgress =
                         actionBecarioId === becario.idBecario;
@@ -623,9 +622,9 @@ export const TutorDashboard = () => {
                               {primerAcceso}
                             </span>
                           </td>
-                          <td>{tareasAsignadas > 0 ? 1 : 0}</td>
-                          <td>{tareasAsignadas}</td>
-                          <td>0</td>
+                          <td>{becario.tareasEnProgreso ?? '—'}</td>
+                          <td>{becario.tareasPendientes ?? '—'}</td>
+                          <td>{becario.tareasCompletadas ?? '—'}</td>
                           <td>
                             <div className={styles.actionGroup}>
                               <button

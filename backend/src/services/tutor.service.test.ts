@@ -12,7 +12,7 @@ import * as usuariosCreacionService from '../modules/usuarios';
 vi.mock('../database/prisma', () => ({
   prisma: {
     tutorBecario: { findMany: vi.fn() },
-    tarea: { count: vi.fn() },
+    tarea: { groupBy: vi.fn() },
     fichaje: { findFirst: vi.fn() },
   },
 }));
@@ -39,6 +39,8 @@ describe('consulta de becarios del tutor', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     vi.mocked(prisma.tutorBecario.findMany).mockResolvedValue([]);
+    vi.mocked(prisma.tarea.groupBy).mockResolvedValue([]);
+    vi.mocked(prisma.fichaje.findFirst).mockResolvedValue(null);
   });
 
   it('devuelve una lista vacía y excluye siempre relaciones inactivas', async () => {
@@ -71,7 +73,64 @@ describe('consulta de becarios del tutor', () => {
         }),
       })
     );
+    expect(prisma.tarea.groupBy).not.toHaveBeenCalled();
   });
+
+  it.each([getBecariosByTutorId, getBecariosAcademicosByTutorId])(
+    'separa los estados por becario e incluye ceros cuando no hay tareas',
+    async getBecarios => {
+      const relaciones = [1, 2, 3].map(idBecario => ({
+        idBecario,
+        tipoTutor: TIPO_TUTORIA.EMPRESA_PRINCIPAL,
+        becario: {
+          idBecario,
+          horasContrato: 600,
+          usuario: { idUsuario: idBecario + 10, nombre: 'Demo', activo: true },
+          tutores: [],
+        },
+      }));
+      vi.mocked(prisma.tutorBecario.findMany).mockResolvedValue(
+        relaciones as never
+      );
+      vi.mocked(prisma.tarea.groupBy).mockResolvedValue([
+        { idBecario: 1, estado: 'Pendiente', _count: { _all: 1 } },
+        { idBecario: 1, estado: 'En_Progreso', _count: { _all: 1 } },
+        { idBecario: 1, estado: 'Completada', _count: { _all: 4 } },
+        { idBecario: 2, estado: 'Completada', _count: { _all: 3 } },
+      ] as never);
+
+      const result = await getBecarios(7);
+
+      expect(result).toEqual([
+        expect.objectContaining({
+          idBecario: 1,
+          tareasAsignadas: 6,
+          tareasPendientes: 1,
+          tareasEnProgreso: 1,
+          tareasCompletadas: 4,
+        }),
+        expect.objectContaining({
+          idBecario: 2,
+          tareasAsignadas: 3,
+          tareasPendientes: 0,
+          tareasEnProgreso: 0,
+          tareasCompletadas: 3,
+        }),
+        expect.objectContaining({
+          idBecario: 3,
+          tareasAsignadas: 0,
+          tareasPendientes: 0,
+          tareasEnProgreso: 0,
+          tareasCompletadas: 0,
+        }),
+      ]);
+      expect(prisma.tarea.groupBy).toHaveBeenCalledExactlyOnceWith({
+        by: ['idBecario', 'estado'],
+        where: { idBecario: { in: [1, 2, 3] } },
+        _count: { _all: true },
+      });
+    }
+  );
 });
 
 describe('creación de becarios por un tutor', () => {
